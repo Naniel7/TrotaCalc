@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Tiradas d10</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- PERSONA -->
+<div class="container">
+  <div class="header" onclick="toggleContainer(this)">Persona</div>
+  <div class="content">
+    <p>Selecciona tu Persona</p>
+
+    <button onclick="setpersona('hermes')">Hermes</button>
+    <button onclick="setpersona('beauty')">Beauty Thief</button>
+    <button onclick="setpersona('fafnir')">Fafnir</button>
+    <button onclick="setpersona('dominion')">Dominion</button>
+
+    <p><strong>Perfil activo:</strong> <span id="perfilActivo">Ninguno</span></p>
+    <p><strong>Debilidades:</strong> <span id="debilidadesPerfil">-</span></p>
+    <p><strong>Resistencias:</strong> <span id="resistenciasPerfil">-</span></p>
+  </div>
+</div>
+
+<hr>
+
+<!-- ATAQUE -->
+<div class="container">
+  <div class="header" onclick="toggleContainer(this)">Ataque</div>
+  <div class="content">
+
+    <label>Cantidad de dados</label>
+    <input type="number" id="dados" min="1">
+
+    <label>Base</label>
+    <input type="number" id="base">
+
+    <label>Posición</label>
+    <select id="posicion">
+      <option value="vanguardia">Vanguardia ×2</option>
+      <option value="neutro">Neutro ×1</option>
+      <option value="retaguardia">Retaguardia ×0.5</option>
+    </select>
+
+    <button onclick="tirarAtaque()">Tirar ataque</button>
+
+    <div id="resultadoAtaque" style="display:none;">
+      <p><strong>Tiradas:</strong> <span id="tiradasAtk"></span></p>
+      <p><strong>Suma dados:</strong> <span id="totalAtk"></span></p>
+      <p><strong>Base:</strong> <span id="baseAtk"></span></p>
+      <p><strong>Base + dados:</strong> <span id="baseMasDadosAtk"></span></p>
+      <p><strong>Cantidad de 10:</strong> <span id="diezAtk"></span></p>
+      <p><strong>Multiplicador:</strong> <span id="multAtk"></span></p>
+      <p><strong>Resultado:</strong> <span id="parcialAtk"></span></p>
+    </div>
+
+  </div>
+</div>
+
+<hr>
+
+<!-- DEFENSA -->
+<div class="container">
+  <div class="header" onclick="toggleContainer(this)">Defensa</div>
+  <div class="content">
+
+    <label>Cantidad de dados</label>
+    <input type="number" id="dadosDef" min="1">
+
+    <label>Base</label>
+    <input type="number" id="baseDef">
+
+    <label>Posición</label>
+    <input type="text" id="posicionDef" disabled>
+
+    <button onclick="tirarDefensa()">Tirar defensa</button>
+
+    <div id="resultadoDefensaParcial" style="display:none;">
+      <p><strong>Tiradas:</strong> <span id="tiradasDef"></span></p>
+      <p><strong>Suma dados:</strong> <span id="totalDef"></span></p>
+      <p><strong>Base:</strong> <span id="baseDefRes"></span></p>
+      <p><strong>Base + dados:</strong> <span id="baseMasDadosDef"></span></p>
+      <p><strong>Cantidad de 10:</strong> <span id="diezDef"></span></p>
+      <p><strong>Multiplicador:</strong> <span id="multDef"></span></p>
+      <p><strong>Resultado defensa:</strong> <span id="parcialDef"></span></p>
+    </div>
+
+    <hr>
+
+    <label>Ataque Enemigo</label>
+    <input type="number" id="danioEntrante" min="0">
+
+    <div class="elementos">
+      <button onclick="seleccionarElementoDef('fuego')">🔥 Fuego</button>
+      <button onclick="seleccionarElementoDef('agua')">💧 Agua</button>
+      <button onclick="seleccionarElementoDef('viento')">🌪️ Viento</button>
+      <button onclick="seleccionarElementoDef('rayo')">⚡ Rayo</button>
+      <button onclick="seleccionarElementoDef('psiquico')">🧠 Psíquico</button>
+      <button onclick="seleccionarElementoDef('oscuridad')">🌑 Oscuridad</button>
+      <button onclick="seleccionarElementoDef('luz')">✨ Luz</button>
+      <button onclick="seleccionarElementoDef('veneno')">☠️ Veneno</button>
+      <button onclick="seleccionarElementoDef('filo')">🗡️ Filo</button>
+      <button onclick="seleccionarElementoDef('punzante')">📌 Punzante</button>
+      <button onclick="seleccionarElementoDef('magnetico')">🧲 Magnético</button>
+      <button onclick="seleccionarElementoDef('armas')">🔫 Armas</button>
+    </div>
+
+    <p><strong>Elemento:</strong> <span id="elementoDefSeleccionado">Ninguno</span></p>
+
+    <button onclick="calcularDanioDefensa()">Calcular daño</button>
+
+    <div id="resultadoDefensaFinal" style="display:none;">
+      <p><strong>Multiplicador:</strong> <span id="multElemDef"></span></p>
+      <p><strong>Daño final:</strong> <span id="finalDef"></span></p>
+    </div>
+
+  </div>
+</div>
+
+<script src="scripts.js"></script>
+</body>
+</html>
