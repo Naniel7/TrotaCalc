@@ -15,7 +15,7 @@ function load(key, def) {
 function toggleContainer(header) {
   const content = header.nextElementSibling;
   content.style.display =
-    content.style.display === "none" ? "block" : "none";
+    content.style.display === "block" ? "none" : "block";
 }
 
 // =====================
@@ -25,27 +25,80 @@ const ataqueMult = { vanguardia: 1.5, neutro: 1, retaguardia: 0.5 };
 const defensaMult = { vanguardia: 0.5, neutro: 1, retaguardia: 1.5 };
 
 // =====================
-// PERFILES
+// PERSONAS
 // =====================
-
 const perfiles = {
-  hermes: { 
-    nombre: "Hermes", 
-    debilidades: ["rayo"], 
-    resistencias: ["viento"] },
-  beauty: { nombre: "Beauty Thief", debilidades: ["filo"], resistencias: ["rayo", "agua"] },
-  fafnir: { nombre: "Fafnir", debilidades: ["rayo"], resistencias: ["psiquico"] },
-  dominion: { nombre: "Dominion", debilidades: ["fuego", "oscuridad"], resistencias: ["rayo"] },
-  omni: { nombre: "Omni", debilidades: ["agua", "luz"], resistencias: ["filo", "rayo"] },
-  gevaudan: { nombre: "Gevaudan", debilidades: ["fuego", "psíquico"] }
+  hermes: {
+    nombre: "Hermes",
+    imagen: "assets/hermes.png",
+    texto: [
+      "Utiliza la magia de viento al máximo potencial.",
+      "Posibilidad de Multi target en dados de viento.",
+      "Se regenera un dado de 10 por turno."
+    ],
+    debilidades: ["rayo"],
+    resistencias: ["viento"]
+  },
+  beauty: {
+    nombre: "Beauty Thief",
+    imagen: "assets/beauty.png",
+    texto: [
+      "Utiliza la magia de agua al máximo potencial.",
+      "Puede curar x20 en equipo"
+    ],
+    debilidades: ["filo"],
+    resistencias: ["rayo", "agua"]
+  },
+  fafnir: {
+    nombre: "Fafnir",
+    imagen: "assets/fafnir.png",
+    texto: ["Utiliza la magia magnérica al máximo potencial."],
+    debilidades: ["rayo"],
+    resistencias: ["psiquico"]
+  },
+  dominion: {
+    nombre: "Dominion",
+    imagen: "assets/dominion.png",
+    texto: ["Anula Luz", "Otorga Once More a toda la party por batalla al ofrecer dados físicos o mágicos según la afinidad de compañeros.",
+     "Permite realizar curación x20 a la party usando dados de luz. ",
+     "Puede restaurar toda la vida usando 3 dados de luz en quien sea.",,
+     
+     "Nivel II",
+
+"Ahora puede curar a la party 1d50 por turno.",
+"Nivel III",
+"Puede sacrificar toda su vida quedando con 1 HP restaurado toda la vida de sus aliados y 10 dados de cansancio a la caja. Esto puede realizarse 1 vez por partida."
+,
+    
+
+"Ahora puede transformar dados de oscuridad en luz.",
+
+"Nivel IV",
+"Puede usar la luz con su maxima magia.",
+"Puede sanar 50 puntos por turno.",
+"Si el jugador muere, cura 150 HP a todos"],
+    debilidades: ["fuego", "oscuridad"],
+    resistencias: ["rayo"]
+  },
+  omni: {
+    nombre: "Omni",
+    imagen: "img/omni.png",
+    texto: [""],
+    debilidades: ["agua", "luz"],
+    resistencias: ["filo", "rayo"],
+
+  },
+  gevaudan: {
+    nombre: "Gevaudan",
+    imagen: "img/gevaudan.png",
+    texto: ["Ataques brutales.", "Daño aumentado a enemigos debilitados."],
+    debilidades: ["fuego", "psiquico"],
+    resistencias: [],
+  }
 };
 
-let persona = load("persona", { debilidades: [], resistencias: [] });
+let persona = load("persona", {});
 let posicionElegida = load("posicion", "neutro");
-let resultadoDefensa = load("resultadoDefensa", 0);
-let elementoDanioDef = load("elementoDanioDef", null);
-
-
 
 // =====================
 // PERFIL
@@ -55,169 +108,72 @@ function setpersona(key) {
   save("persona", persona);
   save("perfilKey", key);
   renderPerfil();
+  renderCartaPersona();
 }
 
 function renderPerfil() {
-  document.getElementById("perfilActivo").textContent =
-    persona.nombre || "Ninguno";
-
+  document.getElementById("perfilActivo").textContent = persona.nombre || "Ninguno";
   document.getElementById("debilidadesPerfil").textContent =
-    persona.debilidades && persona.debilidades.length
-      ? persona.debilidades.join(", ")
-      : "";
-
+    persona.debilidades?.join(", ") || "";
   document.getElementById("resistenciasPerfil").textContent =
-    persona.resistencias && persona.resistencias.length
-      ? persona.resistencias.join(", ")
-      : "";
+    persona.resistencias?.join(", ") || "";
 }
 
-
 // =====================
-// ATAQUE
+// CARTA
 // =====================
-function tirarAtaque() {
-  const dados = +document.getElementById("dados").value;
-  const base = +document.getElementById("base").value || 0;
-  posicionElegida = document.getElementById("posicion").value;
-
-  let suma = 0, tiradas = [], diez = 0;
-  for (let i = 0; i < dados; i++) {
-    const d = Math.floor(Math.random() * 10) + 1;
-    tiradas.push(d);
-    suma += d;
-    if (d === 10) diez++;
+function renderCartaPersona() {
+  const zona = document.getElementById("personaCard");
+  if (!persona?.nombre) {
+    zona.innerHTML = "";
+    return;
   }
 
-  const data = {
-    dados, base, posicionElegida,
-    tiradas, suma,
-    baseMasDados: suma + base,
-    diez,
-    mult: ataqueMult[posicionElegida],
-    resultado: (suma + base) * ataqueMult[posicionElegida]
-  };
+  zona.innerHTML = `
+    <div class="card holo">
+      <div class="card-header">${persona.nombre}</div>
+      <div class="card-image">
+        <img src="${persona.imagen}">
+      </div>
+      <div class="card-text">
+        ${persona.texto.map(t => `<p>${t}</p>`).join("")}
+      </div>
+      <div class="card-footer">
+      
 
-  save("ataque", data);
+      </div>
+    </div>
+  `;
 
-  pintarAtaque(data);
-}
-
-function pintarAtaque(d) {
-  document.getElementById("tiradasAtk").textContent = d.tiradas.join(", ");
-  document.getElementById("totalAtk").textContent = d.suma;
-  document.getElementById("baseAtk").textContent = d.base;
-  document.getElementById("baseMasDadosAtk").textContent = d.baseMasDados;
-  document.getElementById("diezAtk").textContent = d.diez;
-  document.getElementById("multAtk").textContent = d.mult;
-  document.getElementById("parcialAtk").textContent = d.resultado;
-
-  document.getElementById("resultadoAtaque").style.display = "block";
-  document.getElementById("posicionDef").value = d.posicionElegida;
+  activarHolografico();
 }
 
 // =====================
-// DEFENSA
+// HOLOGRÁFICO (FIX)
 // =====================
-function tirarDefensa() {
-  const dados = +document.getElementById("dadosDef").value;
-  const base = +document.getElementById("baseDef").value || 0;
+function activarHolografico() {
+  const card = document.querySelector(".card.holo");
+  if (!card) return;
 
-  let suma = 0, tiradas = [], diez = 0;
-  for (let i = 0; i < dados; i++) {
-    const d = Math.floor(Math.random() * 10) + 1;
-    tiradas.push(d);
-    suma += d;
-    if (d === 10) diez++;
-  }
+  card.addEventListener("mousemove", e => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
 
-  const mult = defensaMult[posicionElegida];
-  resultadoDefensa = (suma + base) * mult;
+    const rx = ((y / rect.height) - 0.5) * -25;
+    const ry = ((x / rect.width) - 0.5) * 25;
 
-  const data = {
-    dados, base,
-    tiradas, suma,
-    baseMasDados: suma + base,
-    diez,
-    mult,
-    resultado: resultadoDefensa
-  };
+    card.style.transform = `
+      rotateX(${rx}deg)
+      rotateY(${ry}deg)
+      scale(1.05)
+    `;
 
-  save("defensa", data);
-  save("resultadoDefensa", resultadoDefensa);
+    card.style.setProperty("--glow-x", `${x}px`);
+    card.style.setProperty("--glow-y", `${y}px`);
+  });
 
-  pintarDefensa(data);
+  card.addEventListener("mouseleave", () => {
+    card.style.transform = "rotateX(0) rotateY(0) scale(1)";
+  });
 }
-
-function pintarDefensa(d) {
-  document.getElementById("tiradasDef").textContent = d.tiradas.join(", ");
-  document.getElementById("totalDef").textContent = d.suma;
-  document.getElementById("baseDefRes").textContent = d.base;
-  document.getElementById("baseMasDadosDef").textContent = d.baseMasDados;
-  document.getElementById("diezDef").textContent = d.diez;
-  document.getElementById("multDef").textContent = d.mult;
-  document.getElementById("parcialDef").textContent = d.resultado;
-
-  document.getElementById("resultadoDefensaParcial").style.display = "block";
-}
-
-// =====================
-// DAÑO
-// =====================
-function seleccionarElementoDef(e) {
-  elementoDanioDef = e;
-  save("elementoDanioDef", e);
-  document.getElementById("elementoDefSeleccionado").textContent = e;
-}
-
-function calcularDanioDefensa() {
-  const danio = +document.getElementById("danioEntrante").value || 0;
-  save("danioEntrante", danio);
-
-  let mult = 1;
-  if (persona.debilidades.includes(elementoDanioDef)) mult = 1.25;
-  if (persona.resistencias.includes(elementoDanioDef)) mult = 0.5;
-
-  const final = danio > resultadoDefensa
-    ? Math.round((danio - resultadoDefensa) * mult)
-    : 0;
-
-  save("danioFinal", { mult, final });
-
-  document.getElementById("multElemDef").textContent = mult;
-  document.getElementById("finalDef").textContent = final;
-  document.getElementById("resultadoDefensaFinal").style.display = "block";
-}
-
-// =====================
-// RESTORE ON LOAD
-// =====================
-window.onload = () => {
-  document.getElementById("dados").value = load("ataque", {}).dados || 3;
-  document.getElementById("base").value = load("ataque", {}).base || 0;
-  document.getElementById("posicion").value = posicionElegida;
-  document.getElementById("posicionDef").value = posicionElegida;
-
-  document.getElementById("dadosDef").value = load("defensa", {}).dados || 2;
-  document.getElementById("baseDef").value = load("defensa", {}).base || 0;
-  document.getElementById("danioEntrante").value = load("danioEntrante", 0);
-
-  const atk = load("ataque", null);
-  if (atk) pintarAtaque(atk);
-
-  const def = load("defensa", null);
-  if (def) pintarDefensa(def);
-
-  const perfilKey = load("perfilKey", null);
-  if (perfilKey) setpersona(perfilKey);
-
-  if (elementoDanioDef)
-    document.getElementById("elementoDefSeleccionado").textContent = elementoDanioDef;
-
-  const danioFinal = load("danioFinal", null);
-  if (danioFinal) {
-    document.getElementById("multElemDef").textContent = danioFinal.mult;
-    document.getElementById("finalDef").textContent = danioFinal.final;
-    document.getElementById("resultadoDefensaFinal").style.display = "block";
-  }
-};

@@ -26,6 +26,9 @@
     <p><strong>Resistencias:</strong> <span id="resistenciasPerfil">-</span></p>
   </div>
 </div>
+<div class="card-zone">
+  <div id="personaCard"></div>
+</div>
 
 <hr>
 
@@ -103,7 +106,6 @@
       <button onclick="seleccionarElementoDef('psiquico')">🧠 Psíquico</button>
       <button onclick="seleccionarElementoDef('oscuridad')">🌑 Oscuridad</button>
       <button onclick="seleccionarElementoDef('luz')">✨ Luz</button>
-      <button onclick="seleccionarElementoDef('veneno')">☠️ Veneno</button>
       <button onclick="seleccionarElementoDef('filo')">🗡️ Filo</button>
       <button onclick="seleccionarElementoDef('bomba')">💣 Bomba</button>
       <button onclick="seleccionarElementoDef('magnetico')">🧲 Magnético</button>
@@ -111,6 +113,7 @@
       <button onclick="seleccionarElementoDef('sonido')">🔊 Sonido</button>
       <button onclick="seleccionarElementoDef('presion')">🤝 Presión</button>
       <button onclick="seleccionarElementoDef('contundente')">🔨 Contundente</button>
+      <button onclick="seleccionarElementoDef('veneno')">☠️ Veneno</button>
     </div>
 
     <p><strong>Elemento:</strong> <span id="elementoDefSeleccionado">Ninguno</span></p>
@@ -123,6 +126,14 @@
     </div>
 
   </div>
+</div>
+<!-- ZONA CARTA PC -->
+<div id="cardSidePanel"></div>
+
+<!-- MODAL MOBILE -->
+<div id="cardModal" class="modal hidden">
+  <div class="modal-backdrop" onclick="cerrarModal()"></div>
+  <div class="modal-content" id="modalCard"></div>
 </div>
 
 <script src="scripts.js"></script>

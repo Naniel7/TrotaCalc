@@ -64,3 +64,97 @@ button {
   background-color: #3a3a5a;
   max-width: min-content;
 }
+
+
+
+/*CARTAS*/
+
+.card-image img {
+  max-height: 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.card-image {
+  height: 240px;
+}
+
+
+
+.card-zone {
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  perspective: 1000px; 
+  font-size: auto;  
+  min-height: auto;
+  box-sizing: border-box;
+}
+
+.card {
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  width: 320px;
+  height: auto;
+  background: radial-gradient(#000, #111);
+  border: 6px solid #b00000;
+  border-radius: 16px;
+  color: #eee;
+  position: relative;
+  box-shadow: 0 0 20px #900;
+  font-family: serif;
+  transition: transform 0.15s ease-out;
+  transform-style: preserve-3d;
+  padding: 17px;
+}
+
+/* HOLOGRÁFICO */
+.card.holo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(120deg,
+      transparent 35%,
+      rgba(255,255,255,0.6),
+      transparent 65%
+    ),
+    linear-gradient(45deg,
+      #ff00ff,
+      #00ffff,
+      #ffff00,
+      #ff00ff
+    );
+  background-size: 300% 300%;
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+  animation: holoMove 6s linear infinite;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.card.holo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at var(--glow-x, 50%) var(--glow-y, 50%),
+    rgba(255,255,255,0.9),
+    transparent 60%
+  );
+  opacity: 0.45;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 4;
+}
+
+@keyframes holoMove {
+  from { background-position: 0% 0%; }
+  to { background-position: 300% 300%; }
+}
+
+/* Contenido encima */
+.card > * {
+  position: relative;
+  z-index: 2;
+}
