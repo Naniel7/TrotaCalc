@@ -53,3 +53,14 @@ button {
   padding:10px;
   border-radius:6px;
 }
+
+.elementos button{
+  background-color: #3a3a5a;
+  max-width: min-content;
+}
+
+.elementos{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
