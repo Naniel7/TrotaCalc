@@ -176,7 +176,7 @@ function calcularDanioDefensa() {
 
   let mult = 1;
   if (persona.debilidades.includes(elementoDanioDef)) mult = 1.25;
-  if (persona.resistencias.includes(elementoDanioDef)) mult = 0.5;
+  if (persona.resistencias.includes(elementoDanioDef)) mult = 0.75;
 
   const final = danio > resultadoDefensa
     ? Math.round((danio - resultadoDefensa) * mult)
