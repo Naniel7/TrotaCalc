@@ -21,8 +21,8 @@ function toggleContainer(header) {
 // =====================
 // MULTIPLICADORES
 // =====================
-const ataqueMult = { vanguardia: 2, neutro: 1, retaguardia: 0.5 };
-const defensaMult = { vanguardia: 0.5, neutro: 1, retaguardia: 1.25 };
+const ataqueMult = { vanguardia: 1.5, neutro: 1, retaguardia: 0.5 };
+const defensaMult = { vanguardia: 0.5, neutro: 1, retaguardia: 1.5 };
 
 // =====================
 // PERFILES
