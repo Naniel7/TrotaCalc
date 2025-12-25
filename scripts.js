@@ -31,7 +31,9 @@ const perfiles = {
   hermes: { nombre: "Hermes", debilidades: ["rayo"], resistencias: ["viento"] },
   beauty: { nombre: "Beauty Thief", debilidades: ["filo"], resistencias: ["rayo", "agua"] },
   fafnir: { nombre: "Fafnir", debilidades: ["rayo"], resistencias: ["psiquico"] },
-  dominion: { nombre: "Dominion", debilidades: ["fuego", "oscuridad"], resistencias: ["rayo"] }
+  dominion: { nombre: "Dominion", debilidades: ["fuego", "oscuridad"], resistencias: ["rayo"] },
+  omni: { nombre: "Omni", debilidades: ["agua", "luz"], resistencias: ["filo", "rayo"] },
+  gevaudan: { nombre: "Gevaudan", debilidades: ["fuego", "psíquico"] }
 };
 
 let persona = load("persona", { debilidades: [], resistencias: [] });
