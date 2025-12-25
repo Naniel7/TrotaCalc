@@ -27,8 +27,12 @@ const defensaMult = { vanguardia: 0.5, neutro: 1, retaguardia: 1.5 };
 // =====================
 // PERFILES
 // =====================
+
 const perfiles = {
-  hermes: { nombre: "Hermes", debilidades: ["rayo"], resistencias: ["viento"] },
+  hermes: { 
+    nombre: "Hermes", 
+    debilidades: ["rayo"], 
+    resistencias: ["viento"] },
   beauty: { nombre: "Beauty Thief", debilidades: ["filo"], resistencias: ["rayo", "agua"] },
   fafnir: { nombre: "Fafnir", debilidades: ["rayo"], resistencias: ["psiquico"] },
   dominion: { nombre: "Dominion", debilidades: ["fuego", "oscuridad"], resistencias: ["rayo"] },
@@ -41,6 +45,8 @@ let posicionElegida = load("posicion", "neutro");
 let resultadoDefensa = load("resultadoDefensa", 0);
 let elementoDanioDef = load("elementoDanioDef", null);
 
+
+
 // =====================
 // PERFIL
 // =====================
@@ -52,10 +58,20 @@ function setpersona(key) {
 }
 
 function renderPerfil() {
-  document.getElementById("perfilActivo").textContent = persona.nombre || "Ninguno";
-  document.getElementById("debilidadesPerfil").textContent = persona.debilidades.join(", ");
-  document.getElementById("resistenciasPerfil").textContent = persona.resistencias.join(", ");
+  document.getElementById("perfilActivo").textContent =
+    persona.nombre || "Ninguno";
+
+  document.getElementById("debilidadesPerfil").textContent =
+    persona.debilidades && persona.debilidades.length
+      ? persona.debilidades.join(", ")
+      : "";
+
+  document.getElementById("resistenciasPerfil").textContent =
+    persona.resistencias && persona.resistencias.length
+      ? persona.resistencias.join(", ")
+      : "";
 }
+
 
 // =====================
 // ATAQUE
