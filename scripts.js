@@ -14,8 +14,7 @@ function load(key, def) {
 // =====================
 function toggleContainer(header) {
   const content = header.nextElementSibling;
-  content.style.display =
-    content.style.display === "none" ? "block" : "none";
+  content.style.display = content.style.display === "none" ? "block" : "none";
 }
 
 // =====================
@@ -29,23 +28,38 @@ const defensaMult = { vanguardia: 0.5, neutro: 1, retaguardia: 1.5 };
 // =====================
 
 const perfiles = {
-  hermes: { 
-    nombre: "Hermes", 
-    debilidades: ["rayo"], 
-    resistencias: ["viento"] },
-  beauty: { nombre: "Beauty Thief", debilidades: ["filo"], resistencias: ["rayo", "agua"] },
-  fafnir: { nombre: "Fafnir", debilidades: ["rayo"], resistencias: ["psiquico"] },
-  dominion: { nombre: "Dominion", debilidades: ["fuego", "oscuridad"], resistencias: ["rayo"] },
-  omni: { nombre: "Omni", debilidades: ["agua", "luz"], resistencias: ["filo", "rayo"] },
-  gevaudan: { nombre: "Gevaudan", debilidades: ["fuego", "psíquico"] }
+  hermes: {
+    nombre: "Hermes",
+    debilidades: ["rayo"],
+    resistencias: ["viento"],
+  },
+  beauty: {
+    nombre: "Beauty Thief",
+    debilidades: ["filo"],
+    resistencias: ["rayo", "agua"],
+  },
+  fafnir: {
+    nombre: "Fafnir",
+    debilidades: ["rayo"],
+    resistencias: ["psiquico"],
+  },
+  dominion: {
+    nombre: "Dominion",
+    debilidades: ["fuego", "oscuridad"],
+    resistencias: ["rayo"],
+  },
+  omni: {
+    nombre: "Omni",
+    debilidades: ["agua", "luz"],
+    resistencias: ["filo", "rayo"],
+  },
+  gevaudan: { nombre: "Gevaudan", debilidades: ["fuego", "psíquico"] },
 };
 
 let persona = load("persona", { debilidades: [], resistencias: [] });
 let posicionElegida = load("posicion", "neutro");
 let resultadoDefensa = load("resultadoDefensa", 0);
 let elementoDanioDef = load("elementoDanioDef", null);
-
-
 
 // =====================
 // PERFIL
@@ -72,7 +86,6 @@ function renderPerfil() {
       : "";
 }
 
-
 // =====================
 // ATAQUE
 // =====================
@@ -81,7 +94,9 @@ function tirarAtaque() {
   const base = +document.getElementById("base").value || 0;
   posicionElegida = document.getElementById("posicion").value;
 
-  let suma = 0, tiradas = [], diez = 0;
+  let suma = 0,
+    tiradas = [],
+    diez = 0;
   for (let i = 0; i < dados; i++) {
     const d = Math.floor(Math.random() * 10) + 1;
     tiradas.push(d);
@@ -90,12 +105,15 @@ function tirarAtaque() {
   }
 
   const data = {
-    dados, base, posicionElegida,
-    tiradas, suma,
+    dados,
+    base,
+    posicionElegida,
+    tiradas,
+    suma,
     baseMasDados: suma + base,
     diez,
     mult: ataqueMult[posicionElegida],
-    resultado: (suma + base) * ataqueMult[posicionElegida]
+    resultado: (suma + base) * ataqueMult[posicionElegida],
   };
 
   save("ataque", data);
@@ -120,10 +138,15 @@ function pintarAtaque(d) {
 // DEFENSA
 // =====================
 function tirarDefensa() {
+  posicionDefensa = document.getElementById("posicionDef").value;
+save("posicionDefensa", posicionDefensa);
+
   const dados = +document.getElementById("dadosDef").value;
   const base = +document.getElementById("baseDef").value || 0;
 
-  let suma = 0, tiradas = [], diez = 0;
+  let suma = 0,
+    tiradas = [],
+    diez = 0;
   for (let i = 0; i < dados; i++) {
     const d = Math.floor(Math.random() * 10) + 1;
     tiradas.push(d);
@@ -131,16 +154,19 @@ function tirarDefensa() {
     if (d === 10) diez++;
   }
 
-  const mult = defensaMult[posicionElegida];
+  const mult = defensaMult[posicionDefensa];
+
   resultadoDefensa = (suma + base) * mult;
 
   const data = {
-    dados, base,
-    tiradas, suma,
+    dados,
+    base,
+    tiradas,
+    suma,
     baseMasDados: suma + base,
     diez,
     mult,
-    resultado: resultadoDefensa
+    resultado: resultadoDefensa,
   };
 
   save("defensa", data);
@@ -178,9 +204,10 @@ function calcularDanioDefensa() {
   if (persona.debilidades.includes(elementoDanioDef)) mult = 1.25;
   if (persona.resistencias.includes(elementoDanioDef)) mult = 0.75;
 
-  const final = danio > resultadoDefensa
-    ? Math.round((danio - resultadoDefensa) * mult)
-    : 0;
+  const final =
+    danio > resultadoDefensa
+      ? Math.round((danio - resultadoDefensa) * mult)
+      : 0;
 
   save("danioFinal", { mult, final });
 
@@ -188,15 +215,15 @@ function calcularDanioDefensa() {
   document.getElementById("finalDef").textContent = final;
   document.getElementById("resultadoDefensaFinal").style.display = "block";
 }
-
+postMessage;
 // =====================
 // RESTORE ON LOAD
 // =====================
 window.onload = () => {
   document.getElementById("dados").value = load("ataque", {}).dados || 3;
   document.getElementById("base").value = load("ataque", {}).base || 0;
-  document.getElementById("posicion").value = posicionElegida;
-  document.getElementById("posicionDef").value = posicionElegida;
+  document.getElementById("posicion").value = posicionAtaque;
+document.getElementById("posicionDef").value = posicionDefensa;
 
   document.getElementById("dadosDef").value = load("defensa", {}).dados || 2;
   document.getElementById("baseDef").value = load("defensa", {}).base || 0;
@@ -212,7 +239,8 @@ window.onload = () => {
   if (perfilKey) setpersona(perfilKey);
 
   if (elementoDanioDef)
-    document.getElementById("elementoDefSeleccionado").textContent = elementoDanioDef;
+    document.getElementById("elementoDefSeleccionado").textContent =
+      elementoDanioDef;
 
   const danioFinal = load("danioFinal", null);
   if (danioFinal) {
